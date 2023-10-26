@@ -1,0 +1,73 @@
+{% extends 'home/base.html' %}
+
+{% block header %}
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'auto:auto_create' %}">Create a new auto</a>
+      </li>
+      
+    {% endif %}
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'auto:make_list' %}">List of Makes</a>
+    </li>  
+{% endblock header %}
+    
+
+
+{% block main %}
+
+
+{% if auto_list %}
+    <div class="row">
+        
+        <div class="alert alert-primary alert-dismissible fade show" role="alert">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          
+            There is <strong>{{auto_count}}</strong> autos in the database.
+        </div>
+          
+
+        
+        {% for auto in auto_list  %}
+            <div class="card text-dark bg-light text-center my-2">
+                <div class="card-header">
+                    Make : {{auto.make.name}}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Model : {{auto.name}}</h5>
+                    <p class="card-text">
+                    <p>Weight : {{auto.weight}}</p>
+                    </p>
+                    
+                    <a href="{% url 'auto:auto_detail' auto.id %}" class="btn btn-outline-primary">View</a>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'auto:auto_update' auto.id %}" class="btn btn-outline-primary">Update</a> 
+                        <a href="{% url 'auto:auto_delete' auto.id %}" class="btn btn-outline-primary">Delete</a> 
+                    {% endif %}   
+                </div>
+                <div class="card-footer text-muted">
+                    {{auto.creation_date|timesince}}
+                </div>
+            </div>
+            
+        {% endfor %}
+            
+
+    </div>
+
+
+{% else %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+    <strong>Error!</strong> There is no autos in the database.
+</div>
+
+    
+{% endif %}
+    
+    
+{% endblock main %}
+    

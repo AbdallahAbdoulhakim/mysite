@@ -1,0 +1,62 @@
+{% extends 'home/base.html' %}
+
+{% block header %}
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'auto:auto_create' %}">Create a new auto</a>
+      </li>
+      
+    {% endif %}
+
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'auto:make_list' %}">List of Makes</a>
+    </li>  
+{% endblock header %}
+
+
+{% block main %}
+
+
+{% if make %}
+    <div class="row">
+        <div class="card">
+          <div class="card-header">
+            Make
+          </div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              <p>{{make.name}}.</p>
+              <footer class="blockquote-footer">There is <cite title="Source Title">{{len}}</cite> autos in the database associated with the this make.</footer>
+            </blockquote>
+          </div>
+            <div class="card-body">
+              
+              {% if user.is_authenticated %}
+                <a href="{% url 'auto:make_update' make.id %}" class="btn btn-outline-primary card-link">Update</a>
+                <a href="{% url 'auto:make_delete' make.id %}" class="btn btn-outline-primary card-link">Delete</a>
+              {% endif %}
+
+              <a href="{% url 'auto:make_list' %}" class="btn btn-outline-primary card-link">Back</a>
+            </div>
+        </div>
+    </div>
+
+
+{% else %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+    <strong>Error!</strong> This make does not exist in the database.
+</div>
+
+    
+{% endif %}
+    
+    
+{% endblock main %}
+    
+
+<div class="card">
+ 
+</div>

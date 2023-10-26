@@ -1,0 +1,27 @@
+{% extends 'home/base.html' %}
+
+{% block main %}
+
+<div class="row">
+  <form action="" method="post">
+    {% csrf_token %}
+
+    {% if form.errors %}
+      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <strong>Error!</strong> <br> 
+        {{form.errors}}
+      </div>
+    {% endif %}
+
+    {{form.as_p}}
+
+    <input class="btn btn-outline-primary" type="submit" value="Save" />
+
+    <input class="btn btn-outline-primary" type="submit" value="Cancel" onclick="window.location='{{request.META.HTTP_REFERER}}'; return false;" />
+      
+  </form>
+</div>
+  
+{% endblock main %}
+  
